@@ -14,6 +14,7 @@ jobs:
         dockerHubPassword: ${{secrets.dockerHubPassword}}
         dockerHubContainerName: ${{secrets.dockerHubContainerName}}
         digitalOceanIP: ${{secrets.digitalOceanIP}}
+        domain: ${{secrets.domain}}  
     steps:
     - uses: actions/checkout@v1
     - name: Build Container - Docker Hub Login
@@ -38,3 +39,5 @@ jobs:
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "docker logout > /dev/null"
     - name: Delete Private Key Text File
       run: rm key.txt
+    - name: Check Page Content
+      run: wget -qO- "https://${{secrets.domain}}"
