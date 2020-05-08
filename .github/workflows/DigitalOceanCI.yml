@@ -17,11 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build Container - Docker Hub Login
-      run: echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
+      run: echo ${{secrets.dockerHubPassword}} | docker login -u $dockerHubUsername --password-stdin
     - name: Build Container - Docker Build
-      run: docker build --pull --rm -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}} ${{secrets.dockerHubContainerName}}
+      run: docker build --pull --rm -f "dotnet3.Dockerfile" -t  $dockerHubUsername/$dockerHubContainerName $dockerHubContainerName
     - name: Build Container - Push to Docker Hub
-      run: docker push ${{secrets.DockerHubUsername}}/${{secrets.dockerHubContainerName}}:latest
+      run: docker push $dockerHubUsername/$dockerHubContainerName:latest
     - name: Build Container - Docker Hub Logout
       run: docker logout
     - name: Digital Ocean Preparation - Output Private Key to Text File for Login
