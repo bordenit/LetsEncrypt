@@ -1,7 +1,7 @@
 #!/bin/sh
 echo $dockerHubPassword | docker login -u $dockerHubUsername --password-stdin
 CONTAINERID=$(docker ps -a -q)
-if [ ! -z "$my_var" ]
+if [ ! -z "$CONTAINERID" ]
 then
 docker stop $CONTAINERID > /dev/null
 docker rm $CONTAINERID 2>/dev/null || true
