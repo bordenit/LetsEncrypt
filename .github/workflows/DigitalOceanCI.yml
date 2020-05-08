@@ -19,7 +19,7 @@ jobs:
     - name: Build Container - Docker Hub Login
       run: echo ${{secrets.dockerHubPassword}} | docker login -u $dockerHubUsername --password-stdin
     - name: Build Container - Docker Build
-      run: docker build -f "dotnet3.Dockerfile" -t  $dockerHubUsername/$dockerHubContainerName $dockerHubContainerName
+      run: docker build -f "dotnet3.Dockerfile" -t  $dockerHubUsername/$dockerHubContainerName .
     - name: Build Container - Push to Docker Hub
       run: docker push $dockerHubUsername/$dockerHubContainerName:latest
     - name: Build Container - Docker Hub Logout
