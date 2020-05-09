@@ -1,4 +1,5 @@
 #!/bin/bash
+openssl s_client -connect https://$domain:444
 content=$(wget -qO- "https://$domain")
 if [[ $content==*"Hello World!"* ]]
 then
