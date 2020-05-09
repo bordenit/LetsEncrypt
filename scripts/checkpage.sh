@@ -6,4 +6,5 @@ echo "HTTPS page loaded successfully"
 else
 echo "HTTPS page is not loading"
 exit 1
-echo $content
+fi
+echo "Displaying Page Content: $content"
