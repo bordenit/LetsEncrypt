@@ -7,4 +7,3 @@ else
 echo "HTTPS page is not loading"
 exit 1
 fi
-echo "Displaying Page Content: $content"
