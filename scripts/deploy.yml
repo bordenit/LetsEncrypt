@@ -4,7 +4,7 @@
   connection: local
   gather_facts: no
   tasks:
-    - name: Run Container
+    - name: Start Ubuntu Containers
       docker_container: 
           image: "{{containerImage}}"
           pull: yes
