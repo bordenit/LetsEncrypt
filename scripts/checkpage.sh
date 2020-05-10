@@ -1,6 +1,6 @@
 #!/bin/bash
 content=$(wget -qO- "https://$domain")
-if [[ $content==*"Hello World!"* ]]
+if [[ $content==*$GITHUB_SHA* ]]
 then
 echo "HTTPS page loaded successfully"
 else

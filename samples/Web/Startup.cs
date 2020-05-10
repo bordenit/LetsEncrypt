@@ -29,7 +29,7 @@ namespace Web
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("Hello World!" +"/n"+ Environment.GetEnvironmentVariable("GITHUB_SHA"));
                 });
             });
         }
