@@ -1,4 +1,4 @@
-name: DigitalOceanCI
+name: Integration Tests dotnet3
 
 on: 
   pull_request:
@@ -6,39 +6,34 @@ on:
       - master
 
 jobs:
-  DockerDroplet:
+  Build_Container_Deploy_to_Docker_Hub:
 
     runs-on: ubuntu-latest
-    env:
-        dockerHubUsername: ${{secrets.dockerHubUsername}}
-        dockerHubPassword: ${{secrets.dockerHubPassword}}
-        dockerHubContainerName: ${{secrets.dockerHubContainerName}}
-        digitalOceanIP: ${{secrets.digitalOceanIP}}
-        domain: ${{secrets.domain}}  
     steps:
     - uses: actions/checkout@v1
-    - name: Build Container - Docker Hub Login
-      run: echo ${{secrets.dockerHubPassword}} | docker login -u $dockerHubUsername --password-stdin
-    - name: Build Container - Docker Build
-      run: docker build -f "dotnet3.Dockerfile" -t  $dockerHubUsername/$dockerHubContainerName .
-    - name: Build Container - Push to Docker Hub
-      run: docker push $dockerHubUsername/$dockerHubContainerName:latest
-    - name: Build Container - Docker Hub Logout
+    - name: Docker Hub Login
+      run: echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
+    - name: Docker Build
+      run: docker build -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}} .
+    - name: Push to Docker Hub
+      run: docker push ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:latest
+    - name: Docker Hub Logout
       run: docker logout
-    - name: Digital Ocean Preparation - Output Private Key to Text File for Login
-      run: echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
-    - name: Digital Ocean Preparation - Set Permissions on Private Key Text File
-      run: chmod 600 key.txt
-    - name: Digital Ocean Preparation - Set File Permissions for Deployment Script
-      run: chmod -R a+x scripts/
-    - name: Digital Ocean Preparation - Docker Hub Login
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin"
-    - name: Print COMMIT
-      run: echo "COMMIT $GITHUB_SHA"
-    - name: Digital Ocean Preparation - Pull Website Container From Docker Hub and Publish to Digital Ocean Droplet
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} export dockerHubUsername=${{secrets.dockerHubUsername}}; export dockerHubContainerName=${{secrets.dockerHubContainerName}}; export COMMIT=$GITHUB_SHA; scripts/containermaint.sh
-    - name: Digital Ocean Preparation - Docker Hub Logout
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "docker logout > /dev/null"
+
+  Production_DigitalOcean:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Preparation
+      run: |
+        echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
+        chmod 600 key.txt
+        chmod -R a+x scripts/
+        export ${{secrets.productionDomain}} > vars
+        export ${{secrets.dockerHubUserName}} >> vars
+        export ${{secrets.dockerHubContainerName}} >> vars
+        export $GITHUB_SHA >> vars
+    - name: Publish Production Container
+      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}'bash -s' < scripts/containermaint.sh 
     - name: Delete Private Key Text File
       run: rm key.txt
     - name: Check Page Content
