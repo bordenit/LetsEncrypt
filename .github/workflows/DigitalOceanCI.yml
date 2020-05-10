@@ -37,8 +37,7 @@ jobs:
         chmod -R a+x scripts/
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
-        export ${{secrets.productionDomain}} > vars
-        export ${{secrets.dockerHubUserName}} >> vars
+        export ${{secrets.dockerHubUserName}} > vars
         export ${{secrets.dockerHubContainerName}} >> vars
         export $GITHUB_SHA >> vars
     - name: Deploy Container
