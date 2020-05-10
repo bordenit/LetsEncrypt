@@ -34,7 +34,7 @@ jobs:
     - name: Digital Ocean Preparation - Docker Hub Login
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin"
     - name: Print COMMIT
-      run: "COMMIT $GITHUB_SHA"
+      run: echo "COMMIT $GITHUB_SHA"
     - name: Digital Ocean Preparation - Pull Website Container From Docker Hub and Publish to Digital Ocean Droplet
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} export dockerHubUsername=${{secrets.dockerHubUsername}}; export dockerHubContainerName=${{secrets.dockerHubContainerName}}; export COMMIT=$GITHUB_SHA; scripts/containermaint.sh
     - name: Digital Ocean Preparation - Docker Hub Logout
