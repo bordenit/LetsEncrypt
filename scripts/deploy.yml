@@ -6,6 +6,7 @@
   tasks:
     - name: Start Ubuntu Containers
       docker_container: 
+          name: "{{containerImage}}"
           image: "{{containerImage}}"
           pull: yes
           recreate: yes
