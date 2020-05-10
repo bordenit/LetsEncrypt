@@ -44,7 +44,7 @@ jobs:
         chmod -R a+x scripts
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
-        echo "ProductionDocker ansible_host=${{secrets.digitalOceanIP}} domain=serviceno.com" > inventory
+        echo "ProductionDocker ansible_host=${{secrets.digitalOceanIP}} domain=serviceno.com ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" > inventory
     - name: Deploy Container
       run: ansible-playbook -i inventory scripts/deploy.yml --private-key=key.txt
     - name: Delete Private Key Text File
