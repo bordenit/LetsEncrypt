@@ -15,7 +15,7 @@ jobs:
     - name: Docker Build
       run: docker build -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}} .
     - name: Push to Docker Hub
-      run: docker push ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:latest
+      run: docker push ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu
     - name: Docker Hub Logout
       run: docker logout
     - name: Archive scripts for later jobs
