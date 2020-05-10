@@ -1,7 +1,5 @@
 #!/bin/bash
-$dockerContainerPath = "$dockerHubUserName/$dockerHubContainerName"
-echo "$dockerHubUserName"
-echo "$dockerHubContainerName"
+$dockerContainerPath=$dockerHubUserName/$dockerHubContainerName
 echo $dockerHubPassword | docker login -u $dockerHubUsername --password-stdin
 CONTAINERID=$(docker ps -a -q)
 if [ ! -z "$CONTAINERID" ]
