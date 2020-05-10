@@ -1,6 +1,7 @@
 ---
 - name: Deploy
   hosts: all
+  gather_facts: no
   tasks:
     - name: Deploy Container
       shell:
