@@ -10,11 +10,10 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-        dockerHubUsername: ${{secrets.dockerHubUsername}}
+        dockerHubUsername: bordenit
         dockerHubPassword: ${{secrets.dockerHubPassword}}
-        dockerHubContainerName: ${{secrets.dockerHubContainerName}}
-        digitalOceanIP: ${{secrets.digitalOceanIP}}
-        domain: ${{secrets.domain}}  
+        dockerHubContainerName: mcmaster
+        domain: serviceno.com   
     steps:
     - uses: actions/checkout@v1
     - name: Build Container - Docker Hub Login
