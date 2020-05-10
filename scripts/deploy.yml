@@ -10,7 +10,7 @@
 
     - name: Start Ubuntu Containers
       docker_container: 
-          name: "{{containerImage}}"
+          name: "{{containerName}}"
           image: "{{containerImage}}"
           pull: yes
           recreate: yes
