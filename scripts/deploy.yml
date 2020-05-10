@@ -6,7 +6,7 @@
   tasks:
     - name: Install PIP module
       pip:
-        name: python-docker
+        name: docker
 
     - name: Start Ubuntu Containers
       docker_container: 
