@@ -1,5 +1,5 @@
 #!/bin/bash
-source vars
+source ./vars
 echo "Username: $dockerHubUserName"
 echo "ContainerName: $dockerHubContainerName"
 CONTAINERID=$(docker ps -a -q)
