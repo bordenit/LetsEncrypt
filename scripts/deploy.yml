@@ -1,6 +1,7 @@
 ---
 - name: Deploy
   hosts: all
+  connection: local
   gather_facts: no
   tasks:
     - name: Deploy Container
