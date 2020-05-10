@@ -4,6 +4,10 @@
   connection: local
   gather_facts: no
   tasks:
+    - name: Install PIP module
+      pip:
+        name: python-docker
+
     - name: Start Ubuntu Containers
       docker_container: 
           name: "{{containerImage}}"
