@@ -1,5 +1,4 @@
 #!/bin/bash
-cat vars
 source .vars
 echo "Username: $dockerHubUserName"
 echo "ContainerName: $dockerHubContainerName"
