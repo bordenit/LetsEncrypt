@@ -5,14 +5,14 @@ on:
     branches: 
       - master
 jobs:
-  CodeCheckout:
+  CheckoutCode:
      runs-on: ubuntu-latest
      steps:
       - uses: actions/checkout@v1
 
-  ContainerBuild:
+  BuildContainer:
     runs-on: ubuntu-latest
-    needs: CodeCheckout
+    needs: CheckoutCode
     steps:
     - uses: actions/checkout@v1
     - name: Docker Hub Login
@@ -24,9 +24,9 @@ jobs:
     - name: Docker Hub Logout
       run: docker logout
 
-  ProductionDigitalOcean:
+  ProductionDeploy:
     runs-on: ubuntu-latest
-    needs: [CodeCheckout, fBaseContainer]
+    needs: [CheckoutCode, BuildContainer]
     steps:
     - name: Preparation
       run: |
