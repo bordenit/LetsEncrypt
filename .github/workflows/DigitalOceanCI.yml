@@ -30,12 +30,8 @@ jobs:
       run: chmod 600 key.txt
     - name: Digital Ocean Preparation - Set File Permissions for Deployment Script
       run: chmod -R a+x scripts/
-    - name: Digital Ocean Preparation - Docker Hub Login
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin"
     - name: Digital Ocean Preparation - Pull Website Container From Docker Hub and Publish to Digital Ocean Droplet
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} 'bash -s' < scripts/containermaint.sh
-    - name: Digital Ocean Preparation - Docker Hub Logout
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} "docker logout > /dev/null"
     - name: Delete Private Key Text File
       run: rm key.txt
     - name: Check Page Content
