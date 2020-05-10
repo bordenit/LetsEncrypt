@@ -5,9 +5,9 @@ on:
     branches: 
       - master
 jobs:
+
   BuildContainer:
     runs-on: ubuntu-latest
-    needs: CheckoutCode
     steps:
     - uses: actions/checkout@v1
     - name: Docker Hub Login
