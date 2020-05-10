@@ -1,5 +1,7 @@
 #!/bin/bash
 source vars
+echo "Username: $dockerHubUserName"
+echo "ContainerName: $dockerHubContainerName"
 CONTAINERID=$(docker ps -a -q)
 if [ ! -z "$CONTAINERID" ]
 then
