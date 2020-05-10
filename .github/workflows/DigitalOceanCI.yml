@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  Base_Container:
+  BaseContainer:
 
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +20,7 @@ jobs:
     - name: Docker Hub Logout
       run: docker logout
 
-  Production_DigitalOcean:
+  ProductionDigitalOcean:
     runs-on: ubuntu-latest
     needs: Base_Container
     steps:
