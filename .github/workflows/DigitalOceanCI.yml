@@ -4,11 +4,15 @@ on:
   pull_request:
     branches: 
       - master
-
 jobs:
-  BaseContainer:
+  CodeCheckout:
+     runs-on: ubuntu-latest
+     steps:
+      - uses: actions/checkout@v1
 
+  ContainerBuild:
     runs-on: ubuntu-latest
+    needs: CodeCheckout
     steps:
     - uses: actions/checkout@v1
     - name: Docker Hub Login
@@ -22,7 +26,7 @@ jobs:
 
   ProductionDigitalOcean:
     runs-on: ubuntu-latest
-    needs: BaseContainer
+    needs: [CodeCheckout, fBaseContainer]
     steps:
     - name: Preparation
       run: |
@@ -33,7 +37,7 @@ jobs:
         export ${{secrets.dockerHubUserName}} >> vars
         export ${{secrets.dockerHubContainerName}} >> vars
         export $GITHUB_SHA >> vars
-    - name: Publish Production Container
+    - name: Remove Old Containers and Publish Production Container
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}'bash -s' < scripts/containermaint.sh 
     - name: Delete Private Key Text File
       run: rm key.txt
