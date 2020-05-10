@@ -1,4 +1,6 @@
 #!/bin/bash
+echo $dockerHubContainerName
+echo $dockerHubUsername
 CONTAINERID=$(docker ps -a -q)
 if [ ! -z "$CONTAINERID" ]
 then
