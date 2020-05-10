@@ -24,9 +24,13 @@ jobs:
         name: scripts
         path: scripts
 
-  ProductionDeploy:
+  Deploy:
     runs-on: ubuntu-latest
     needs: BuildContainer
+    env:
+      digitalOceanIP: ${{secrets.digitalOceanIP}}
+      dockerHubUsername: ${{secrets.dockerHubUsername}}
+      dockerHubContainerName: ${{secrets.dockerHubContainerName}}      
     steps:
     - name: Get Scripts
       uses: actions/download-artifact@v1
@@ -40,12 +44,8 @@ jobs:
         chmod -R a+x scripts
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
-        echo "export dockerHubUsername=${{secrets.dockerHubUserName}}" > vars
-        echo "export dockerHubContainerName=${{secrets.dockerHubContainerName}}" >> vars
-        echo "export GITHUB_SHA=$GITHUB_SHA" >> vars
+        echo "ProductionDocker ansible_host=${{secrets.digitalOceanIP}}" > inventory
     - name: Deploy Container
-      run: ansible-playbook -i ProductionDocker containermaint.yml --private-key=key.txt
+      run: ansible-playbook -i inventory Deploy.yml --private-key=key.txt
     - name: Delete Private Key Text File
       run: rm key.txt
-    - name: Check Page Content
-      run: scripts/checkpage.sh
