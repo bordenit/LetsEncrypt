@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo $dockerHubPassword | docker login -u $dockerHubUsername --password-stdin
 CONTAINERID=$(docker ps -a -q)
 if [ ! -z "$CONTAINERID" ]
