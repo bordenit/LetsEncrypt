@@ -41,10 +41,8 @@ jobs:
         echo "export dockerHubUsername=${{secrets.dockerHubUserName}}" > vars
         echo "export dockerHubContainerName=${{secrets.dockerHubContainerName}}" >> vars
         echo "export GITHUB_SHA=$GITHUB_SHA" >> vars
-        chmod 775 vars
-        cat vars
     - name: Deploy Container
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}} 'bash -s' < scripts/containermaint.sh
+      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}"source vars && 'bash -s' < scripts/containermaint.sh"
     - name: Delete Private Key Text File
       run: rm key.txt
     - name: Check Page Content
