@@ -37,9 +37,9 @@ jobs:
         chmod -R a+x scripts/
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
-        export ${{secrets.dockerHubUserName}} > vars
-        export ${{secrets.dockerHubContainerName}} >> vars
-        export $GITHUB_SHA >> vars
+        export dockerHubUserName=${{secrets.dockerHubUserName}} > vars
+        export dockerHubContainerName=${{secrets.dockerHubContainerName}} >> vars
+        export GITHUB_SHA=$GITHUB_SHA >> vars
     - name: Deploy Container
       run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}"$(< scripts/containermaint.sh)" 
     - name: Delete Private Key Text File
