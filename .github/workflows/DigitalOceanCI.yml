@@ -1,4 +1,4 @@
-name: Integration Tests dotnet3
+name: Integration
 
 on: 
   pull_request:
@@ -22,7 +22,7 @@ jobs:
 
   ProductionDigitalOcean:
     runs-on: ubuntu-latest
-    needs: Base_Container
+    needs: BaseContainer
     steps:
     - name: Preparation
       run: |
