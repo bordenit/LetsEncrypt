@@ -32,6 +32,8 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: scripts
+    - name: Print Ansible Version
+      run: ansible --version
     - name: Prepare Environment
       shell: bash
       run: |
