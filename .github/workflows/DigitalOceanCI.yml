@@ -12,9 +12,10 @@ jobs:
     env:
         dockerHubUsername: ${{secrets.dockerHubUsername}}
         dockerHubPassword: ${{secrets.dockerHubPassword}}
+        dockerHubContainer: ${{secrets.dockerHubContainer}}  
         dockerHubContainerName: ${{secrets.dockerHubContainerName}}
         digitalOceanIP: ${{secrets.digitalOceanIP}}
-        domain: ${{secrets.domain}}  
+        domain: ${{secrets.domain}}    
     steps:
     - uses: actions/checkout@v1
     - name: Build Container - Docker Hub Login
