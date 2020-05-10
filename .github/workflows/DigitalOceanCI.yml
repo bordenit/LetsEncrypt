@@ -44,7 +44,7 @@ jobs:
         echo "export dockerHubContainerName=${{secrets.dockerHubContainerName}}" >> vars
         echo "export GITHUB_SHA=$GITHUB_SHA" >> vars
     - name: Deploy Container
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}"source vars && 'bash -s' < scripts/containermaint.sh"
+      run: ansible-playbook -i ProductionDocker containermaint.yml --private-key=key.txt
     - name: Delete Private Key Text File
       run: rm key.txt
     - name: Check Page Content
