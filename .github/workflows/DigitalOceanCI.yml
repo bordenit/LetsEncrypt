@@ -34,7 +34,7 @@ jobs:
         name: scripts
     - shell: bash
       run: |
-        chmod -R a+x scripts/
+        chmod -R a+x scripts
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
         export dockerHubUsername=${{secrets.dockerHubUserName}} > vars
