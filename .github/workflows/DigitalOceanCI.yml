@@ -13,7 +13,7 @@ jobs:
     - name: Docker Hub Login
       run: echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
     - name: Docker Build
-      run: docker build -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu .
+      run: docker build -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}} .
     - name: Push to Docker Hub
       run: docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
     - name: Docker Hub Logout
