@@ -10,7 +10,12 @@
 - name: Deploy
   hosts: all
   tasks:
-    - name: Install PIP module
+    - name: Install PIP
+      yum:
+        name: pip
+        state: present
+        
+    - name: Install Docker Python Module
       pip:
         name: docker
 
