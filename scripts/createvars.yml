@@ -14,7 +14,9 @@
       path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
       line: "DigitalOceanContainer1 ansible_user=root ansible_ssh_host={{ansible_env.digitalOceanIP}} domain={{ansible_env.domain}} containerName={{ansible_env.dockerHubContainerName}} containerImage={{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}:ubuntu'  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'"
       create: yes
-
+  - name: Print Hostvars
+    shell:
+      cat {{ ansible_env.GITHUB_WORKSPACE }}/inventory
   - name: Create Private Key File
     lineinfile: 
       path: "{{ ansible_env.GITHUB_WORKSPACE }}/key.txt"
