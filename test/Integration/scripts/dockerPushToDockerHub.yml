@@ -2,7 +2,7 @@
 - hosts: localhost
   connection: local
   tasks:
-    - import_taskss: installDependencies.yml
+    - import_tasks: installDependencies.yml
     
     - import_tasks: dockerHubLogin.yml
 
