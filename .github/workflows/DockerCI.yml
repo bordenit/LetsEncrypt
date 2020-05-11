@@ -16,6 +16,7 @@ jobs:
       dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
       commitSHA: ${{github.event.pull_request.head.sha}}
       digitalOceanPrivateKey: ${{secrets.digitalOceanPrivateKey}}  
+      domain: ${{secrets.domain}}  
     steps:
     - uses: actions/checkout@v1
       
