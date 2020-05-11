@@ -8,4 +8,4 @@
       url: https://"{{domain}}"
       return_content: true
     register: response
-    failed_when: "{{commitSHA}} not in response.content"
+    failed_when: "commitSHA not in response.content"
