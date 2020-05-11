@@ -42,7 +42,7 @@ jobs:
       with:
         name: scripts
     
-    - name: Prepare Public Facing Container Environment
+    - name: Prepare For Deployment
       shell: bash
       run: |
         chmod -R a+x scripts
