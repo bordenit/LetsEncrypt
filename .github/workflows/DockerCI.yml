@@ -13,8 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build Container
-      run: |
-        docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
+      run: docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
 
     - name: Push to Docker Hub
       run: |
