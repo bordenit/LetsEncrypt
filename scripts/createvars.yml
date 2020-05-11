@@ -16,7 +16,7 @@
       create: yes
 
   - name: Create Private Key File
-    linesinfile: 
+    lineinfile: 
       path: "{{ GITHUB_WORKSPACE }}/key.txt"
       line: "{{digitalOceanPrivateKey}}"
       create: yes
