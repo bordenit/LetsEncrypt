@@ -5,4 +5,4 @@
     return_content: true
   register: response
   failed_when: "commitSHA not in response.content"
-  with_items: "{{ hostvars }}"
+  with_items: "{{ groups['all'] }}"
