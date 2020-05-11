@@ -52,6 +52,9 @@ jobs:
 
     - name: Deploy Public Facing Container
       run: ansible-playbook -i inventory scripts/deploy.yml
-
+      
+    - name: Check Home Page of All Ubuntu Containers
+      run: ansible-playbook -i inventory scripts/checkpage.yml
+      
     - name: Delete Private Key Text File
       run: rm key.txt
