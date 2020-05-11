@@ -9,11 +9,11 @@
     - name: Build, Tag, and Push to Docker Hub
       docker_image:
         build:
-          path: .{{ ansible_env.GITHUB_WORKSPACE }}/samples/Web
+          path: ./dotnet3.Dockerfile
         name: "{{ansible_env.dockerHubContainerName}}"
         repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
         push: yes
         tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
-        source: local
+        source: build
 
     - import_tasks: dockerHubLogout.yml
