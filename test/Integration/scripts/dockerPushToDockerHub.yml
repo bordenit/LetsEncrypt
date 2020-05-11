@@ -2,9 +2,9 @@
 - hosts: localhost
   connection: local
   tasks:
-    - import_tasks: installDependencies.yml
+   # - include: installDependencies.yml
     
-    - import_tasks: dockerHubLogin.yml
+    - include: dockerHubLogin.yml
 
     - name: Build, Tag, and Push to Docker Hub
       docker_image:
