@@ -8,7 +8,7 @@
         GITHUB_SHA: "abc123"
 
 - name: Deploy
-  hosts: Local3
+  hosts: all
   connection: local
   tasks:
     - name: Install PIP module
