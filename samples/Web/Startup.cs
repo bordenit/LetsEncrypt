@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Configuration;
+using System;
 namespace Web
 {
     public class Startup
@@ -20,7 +21,6 @@ namespace Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -29,7 +29,7 @@ namespace Web
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("<h1>Hello World!</h1>"+"<h4>COMMIT: "+Environment.GetEnvironmentVariable("COMMIT")+"</h4>");
                 });
             });
         }
