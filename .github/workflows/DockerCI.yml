@@ -15,6 +15,7 @@ jobs:
       dockerHubUsername: ${{secrets.dockerHubUsername}}
       dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
       commitSHA: ${{github.event.pull_request.head.sha}}
+      digitalOceanPrivateKey: ${{secrets.digitalOceanPrivateKey}}  
     steps:
     - uses: actions/checkout@v1
       
@@ -29,12 +30,7 @@ jobs:
 
     - name: Prepare For Deployment
       shell: bash
-      run: |
-        chmod -R a+x scripts
-        echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
-        chmod 600 key.txt
-        echo "DigitalOceanContainer1 ansible_user=root ansible_ssh_host=${{secrets.digitalOceanIP}} domain=${{secrets.domain}} containerName=${{secrets.dockerHubContainerName}} containerImage='${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu'  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" >> inventory
-        ## You can dynamically add more containers here if you want to test different container environments
+      run: ansible-playbook scripts/createvars.yml
         
     - name: Deploy Public Facing Containers
       run: ansible-playbook -i inventory scripts/deploy.yml
