@@ -8,11 +8,10 @@
       docker_image:
         build:
           path: .{{ ansible_env.GITHUB_WORKSPACE }}/samples/Web
-
-    - name: "{{ansible_env.dockerContainerName}}"
-      repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerContainerName}}"
-      push: yes
-      tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
-      source: local
+        name: "{{ansible_env.dockerHubContainerName}}"
+        repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
+        push: yes
+        tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
+        source: local
 
     - include: dockerHubLogout.yml
