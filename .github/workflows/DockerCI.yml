@@ -36,7 +36,7 @@ jobs:
         echo "ProductionDocker ansible_user=root ansible_ssh_host=${{secrets.digitalOceanIP}} domain=${{secrets.domain}} containerName=${{secrets.dockerHubContainerName}} containerImage="${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" > inventory
         ## You can dynamically add more containers here if you want to test different container environments
         
-    - name: Deploy Public Facing Container
+    - name: Deploy Public Facing Containers
       run: ansible-playbook -i inventory scripts/deploy.yml
           
     - name: Check Home Page of All Ubuntu Containers
