@@ -27,7 +27,7 @@ jobs:
         name: scripts
         path: scripts
 
-  DeployContainer:
+  DeployContainers:
     runs-on: ubuntu-latest
     needs: BuildContainer
     env:
@@ -52,7 +52,10 @@ jobs:
 
     - name: Deploy Public Facing Container
       run: ansible-playbook -i inventory scripts/deploy.yml
-      
+  CheckContainers:
+    runs-on: ubuntu-latest
+    needs: [BuildContainer, DeployContainers]
+    steps:
     - name: Check Home Page of All Ubuntu Containers
       run: ansible-playbook -i inventory scripts/checkpage.yml
       
