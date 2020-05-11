@@ -1,7 +1,7 @@
 - hosts: all
   tasks:
-  - name: Log into private registry and force re-authorization
-    docker_login:
-      username: "{{ansible_env.dockerHubUsername}}"
-      password: "{{ansible_env.dockerHubPassword}}"
-      reauthorize: yes
+    - name: Log into private registry and force re-authorization
+      docker_login:
+        username: "{{ansible_env.dockerHubUsername}}"
+        password: "{{ansible_env.dockerHubPassword}}"
+        reauthorize: yes

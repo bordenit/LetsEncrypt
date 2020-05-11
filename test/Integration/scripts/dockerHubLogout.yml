@@ -1,5 +1,5 @@
 - hosts: all
   tasks:
-  - name: Log out of DockerHub
-    docker_login:
-      state: absent
+    - name: Log out of DockerHub
+      docker_login:
+        state: absent

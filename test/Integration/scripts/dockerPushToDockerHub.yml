@@ -1,16 +1,17 @@
 - hosts: localhost
   connection: local
   tasks:
-  - include: dockerHubLogin.yml
+    - include: dockerHubLogin.yml
 
-  - name: Build, Tag, and Push to Docker Hub
-    docker_image:
-      build:
-        path: .{{ ansible_env.GITHUB_WORKSPACE }}/samples/Web
-      name: "{{ansible_env.dockerContainerName}}"
+    - name: Build, Tag, and Push to Docker Hub
+      docker_image:
+        build:
+          path: .{{ ansible_env.GITHUB_WORKSPACE }}/samples/Web
+
+    - name: "{{ansible_env.dockerContainerName}}"
       repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerContainerName}}"
       push: yes
       tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
       source: local
 
-  - include: dockerHubLogout.yml
+    - include: dockerHubLogout.yml
