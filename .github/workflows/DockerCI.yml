@@ -17,6 +17,7 @@ jobs:
       commitSHA: ${{github.event.pull_request.head.sha}}
       digitalOceanPrivateKey: ${{secrets.digitalOceanPrivateKey}}  
       domain: ${{secrets.domain}}  
+      ansible_python_interpreter: "/usr/bin/python3"
     steps:
     - uses: actions/checkout@v1
       
