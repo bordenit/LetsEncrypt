@@ -31,5 +31,5 @@
           env:
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_URLS: "http://+;https://+"
-            ASPNETCORE_HTTPS_PORT: 443
+            ASPNETCORE_HTTPS_PORT: "443"
             GITHUB_SHA: "{{ hostvars['localhost']['GITHUB_SHA'] }}"
