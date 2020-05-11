@@ -9,7 +9,6 @@
 
 - name: Deploy
   hosts: all
-  connection: local
   tasks:
     - name: Install PIP module
       pip:
