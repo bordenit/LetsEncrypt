@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   tasks:
-  - name: Check if web page loads and contains commmit
+  - name: Check if web page loads and contains commit
     uri: 
       url: "https://{{hostvars[item].domain}}"
       return_content: true
