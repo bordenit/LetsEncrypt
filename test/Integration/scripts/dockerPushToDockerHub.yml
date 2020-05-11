@@ -16,4 +16,4 @@
         tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
         source: build
 
-    - import_tasks: dockerHubLogout.yml
+    - include: dockerHubLogout.yml
