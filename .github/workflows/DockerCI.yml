@@ -29,7 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: BuildContainer
     steps:
-
+    - name: Get Scripts
+      uses: actions/download-artifact@v1
+      with:
+        name: scripts
     - name: Preparation
       run: |
         chmod -R a+x scripts/
