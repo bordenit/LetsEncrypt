@@ -1,0 +1,35 @@
+---
+- name: Get Some Local Pipeline Variables
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Get Pipeline Variables
+      set_fact:
+        GITHUB_SHA: "abc123"
+
+- name: Deploy
+  hosts: Local3
+  connection: local
+  tasks:
+    - name: Install PIP module
+      pip:
+        name: docker
+
+    - name: Start Ubuntu Containers
+      docker_container: 
+          name: "{{containerName}}"
+          image: "{{containerImage}}"
+          pull: yes
+          network_mode: bridge
+          recreate: yes
+          state: started
+          published_ports:
+            - "80:80"
+            - "443:443"
+          volumes:
+            - "~/x509stores/:/root/.dotnet/corefx/cryptography/x509stores/"
+          env:
+            ASPNETCORE_ENVIRONMENT: "Production"
+            ASPNETCORE_URLS: "http://+;https://+"
+            ASPNETCORE_HTTPS_PORT: 443
+            GITHUB_SHA: "{{ hostvars['localhost']['GITHUB_SHA'] }}"
