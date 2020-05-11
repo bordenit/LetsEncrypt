@@ -40,4 +40,4 @@
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_URLS: "http://+;https://+"
             ASPNETCORE_HTTPS_PORT: "443"
-            commitSHA: "{{ hostvars['localhost']['GITHUB_SHA'] }}"
+            commitSHA: "{{ hostvars['localhost']['commitSHA'] }}"
