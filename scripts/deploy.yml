@@ -5,7 +5,7 @@
   tasks:
     - name: Get Pipeline Variables
       set_fact:
-        COMMIT_SHA: "{{ ansible_env.COMMIT_SHA }}"
+        COMMIT_SHA: "{{ ansible_env.commitSHA }}"
 
 - name: Deploy
   hosts: all
