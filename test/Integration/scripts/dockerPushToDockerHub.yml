@@ -11,6 +11,7 @@
         build:
           path: "{{ansible_env.GITHUB_WORKSPACE}}"
           dockerfile: dotnet3.Dockerfile
+          pull: yes
         name: "{{ansible_env.dockerHubContainerName}}"
         repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
         push: yes
