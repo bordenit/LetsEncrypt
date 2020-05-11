@@ -4,9 +4,10 @@
   connection: local
   tasks:
   - name: Check if web page loads and contains commit
+    vars:
     uri: 
       url: "https://{{hostvars[item].domain}}"
       return_content: true
     register: response
-    failed_when: "commitSHA not in response.content"
+    failed_when: "ansible_env.commitSHA not in response.content"
     with_items: "{{ groups['containers'] }}"
