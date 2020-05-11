@@ -15,7 +15,7 @@
       pip:
         name: docker
 
-    - include_tasks: dockerHubLogin.yml
+    - include: dockerHubLogin.yml
 
     - name: Start Ubuntu Containers
       docker_container: 
@@ -35,4 +35,4 @@
             ASPNETCORE_HTTPS_PORT: "443"
             commitSHA: "{{ hostvars['localhost']['commitSHA'] }}"
 
-    - include_tasks: dockerHubLogout.yml
+    - include: dockerHubLogout.yml
