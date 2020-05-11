@@ -21,11 +21,6 @@
       line: "{{ ansible_env.digitalOceanPrivateKey }}"
       create: yes
 
-  - name: Set File Permission For Scripts
-    file:
-      path: "{{ ansible_env.GITHUB_WORKSPACE }}/scripts/"
-      mode: '0775'
-
   - name: Set File Permissions for Private Key
     file:
       path: "{{ ansible_env.GITHUB_WORKSPACE }}/key.txt"
