@@ -1,0 +1,32 @@
+---
+- name: Deployment Preparation
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create hostvars group
+    lineinfile:
+      path: "{{ GITHUB_WORKSPACE }}/inventory"
+      line: "[containers]"
+      create: yes
+
+  - name: Create Container hostvars
+    lineinfile:
+      path: "{{ GITHUB_WORKSPACE }}/inventory"
+      line: "DigitalOceanContainer1 ansible_user=root ansible_ssh_host={{digitalOceanIP}} domain={{domain}} containerName={{dockerHubContainerName}} containerImage={{dockerHubUsername}}/{{dockerHubContainerName}}:ubuntu'  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'"
+      create: yes
+
+  - name: Create Private Key File
+    linesinfile: 
+      path: "{{ GITHUB_WORKSPACE }}/key.txt"
+      line: "{{digitalOceanPrivateKey}}"
+      create: yes
+
+  - name: Set File Permission For Scripts
+    file:
+      path: "{{ GITHUB_WORKSPACE }}/scripts/"
+      mode: '0775'
+
+  - name: Set File Permissions for Private Key
+    file:
+      path: "{{ GITHUB_WORKSPACE }}/key.txt"
+      mode: '0600'
