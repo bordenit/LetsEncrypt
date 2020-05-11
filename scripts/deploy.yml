@@ -8,7 +8,7 @@
         GITHUB_SHA: "abc123"
 
 - name: Deploy
-  hosts: all
+  hosts: Local3
   connection: local
   tasks:
     - name: Install PIP module
@@ -20,6 +20,7 @@
           name: "{{containerName}}"
           image: "{{containerImage}}"
           pull: yes
+          network_mode: bridge
           recreate: yes
           state: started
           published_ports:
@@ -30,5 +31,5 @@
           env:
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_URLS: "http://+;https://+"
-            ASPNETCORE_HTTPS_PORT: "443"
+            ASPNETCORE_HTTPS_PORT: 443
             GITHUB_SHA: "{{ hostvars['localhost']['GITHUB_SHA'] }}"
