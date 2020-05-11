@@ -8,10 +8,16 @@ on:
 
 jobs:
 
-  BuildContainer:
+  BuildDeployTestContainer:
     runs-on: ubuntu-latest
+    env:
+      digitalOceanIP: ${{secrets.digitalOceanIP}}
+      dockerHubUsername: ${{secrets.dockerHubUsername}}
+      dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
+      commitSHA: ${{github.event.pull_request.head.sha}}
     steps:
     - uses: actions/checkout@v1
+      
     - name: Build Container
       run: docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
 
@@ -21,27 +27,6 @@ jobs:
         docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
         docker logout
 
-    - name: Archive Scripts For Later Use
-      uses: actions/upload-artifact@v1
-      with:
-        name: scripts
-        path: scripts
-
-  DeployContainers:
-    runs-on: ubuntu-latest
-    needs: BuildContainer
-    env:
-      digitalOceanIP: ${{secrets.digitalOceanIP}}
-      dockerHubUsername: ${{secrets.dockerHubUsername}}
-      dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
-      commitSHA: ${{github.event.pull_request.head.sha}}
-
-    steps:
-    - name: Get Scripts From Archive
-      uses: actions/download-artifact@v1
-      with:
-        name: scripts
-    
     - name: Prepare For Deployment
       shell: bash
       run: |
@@ -53,14 +38,6 @@ jobs:
         
     - name: Deploy Public Facing Container
       run: ansible-playbook -i inventory scripts/deploy.yml
-  CheckContainers:
-    runs-on: ubuntu-latest
-    needs: [BuildContainer, DeployContainers]
-    steps:
-    - name: Get Scripts From Archive
-      uses: actions/download-artifact@v1
-      with:
-        name: scripts
           
     - name: Check Home Page of All Ubuntu Containers
       run: ansible-playbook -i inventory scripts/checkpage.yml
