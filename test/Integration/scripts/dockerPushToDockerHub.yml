@@ -10,7 +10,7 @@
       docker_image:
         build:
           path: ./
-        dockerfile: dotnet3.Dockerfile
+          dockerfile: dotnet3.Dockerfile
         name: "{{ansible_env.dockerHubContainerName}}"
         repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
         push: yes
