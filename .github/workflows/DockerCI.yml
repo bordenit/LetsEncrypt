@@ -1,6 +1,7 @@
 name: Integration
 
 on: 
+
   pull_request:
     branches: 
       - master
@@ -13,41 +14,48 @@ jobs:
     - uses: actions/checkout@v1
     - name: Docker Hub Login
       run: echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
+
     - name: Docker Build
-      run: docker build -f "dotnet3.Dockerfile" -t  ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}} .
+      run: docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
+
     - name: Push to Docker Hub
-      run: docker push ${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:latest
+      run: docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
+
     - name: Docker Hub Logout
       run: docker logout
+
     - name: Archive scripts for later jobs
       uses: actions/upload-artifact@v1
       with:
         name: scripts
         path: scripts
 
-  ProductionDeploy:
+  Deploy:
     runs-on: ubuntu-latest
     needs: BuildContainer
+    env:
+      digitalOceanIP: ${{secrets.digitalOceanIP}}
+      dockerHubUsername: ${{secrets.dockerHubUsername}}
+      dockerHubContainerName: ${{secrets.dockerHubContainerName}}      
+
     steps:
     - name: Get Scripts
       uses: actions/download-artifact@v1
       with:
         name: scripts
-    - name: Preparation
+    - name: Print Ansible Version
+      run: ansible --version
+
+    - name: Prepare Environment
+      shell: bash
       run: |
-        chmod -R a+x scripts/
+        chmod -R a+x scripts
         echo "${{secrets.digitalOceanPrivateKey}}" >> key.txt
         chmod 600 key.txt
-        export ${{secrets.productionDomain}} > vars
-        export ${{secrets.dockerHubUserName}} >> vars
-        export ${{secrets.dockerHubContainerName}} >> vars
-        export $GITHUB_SHA >> vars
+        echo "ProductionDocker ansible_ssh_host=${{secrets.digitalOceanIP}} domain=${{secrets.domain}} containerName=${{secrets.dockerHubContainerName}} containerImage="${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" > inventory
 
-    - name: Remove Old Containers and Publish Production Container
-      run: ssh -o "StrictHostKeyChecking=no" -i key.txt root@${{secrets.digitalOceanIP}}'bash -s' < scripts/containermaint.sh 
+    - name: Deploy Container
+      run: ansible-playbook -i inventory scripts/deploy.yml
 
     - name: Delete Private Key Text File
       run: rm key.txt
-
-    - name: Check Page Content
-      run: scripts/checkpage.sh
