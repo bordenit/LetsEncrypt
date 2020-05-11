@@ -1,4 +1,4 @@
-name: Ubuntu Production Container Test
+name: DockerCI
 
 on: 
 
@@ -8,39 +8,31 @@ on:
 
 jobs:
 
-  BuildDeployTestContainer:
+  LetsEncrypt:
     runs-on: ubuntu-latest
     env:
       digitalOceanIP: ${{secrets.digitalOceanIP}}
+      dockerTag: "ubuntu"
       dockerHubUsername: ${{secrets.dockerHubUsername}}
+      dockerHubPassword: ${{secrets.dockerHubPassword}}
       dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
       commitSHA: ${{github.event.pull_request.head.sha}}
       digitalOceanPrivateKey: ${{secrets.digitalOceanPrivateKey}}  
       domain: ${{secrets.domain}}  
       ansible_python_interpreter: "/usr/bin/python3"
+      ASPNETCORE_ENVIRONMENT: "Production"
+
     steps:
     - uses: actions/checkout@v1
-      
-    - name: Build Container
-      run: docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
-
-    - name: Push to Docker Hub
-      run: |
-        echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
-        docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
-        docker logout
+    
+    - name: Build and Push to Docker Hub
+      run: ansible-playbook tests/Integration/scripts/dockerPushToDockerHub.yml
 
     - name: Prepare For Deployment
-      run: ansible-playbook scripts/createvars.yml
-      
-    - name: Print hostvars
-      run: cat inventory
+      run: ansible-playbook tests/Integration/scripts/createvars.yml
         
     - name: Deploy Public Facing Containers
-      run: ansible-playbook -i inventory scripts/deploy.yml
+      run: ansible-playbook -i inventory tests/Integration/scripts/deploy.yml
           
     - name: Check Home Page of All Ubuntu Containers
-      run: ansible-playbook -i inventory scripts/checkpage.yml
-      
-    - name: Delete Private Key Text File
-      run: rm key.txt
+      run: ansible-playbook -i inventory tests/Integration/scripts//checkpage.yml

@@ -1,14 +1,5 @@
 ---
-- name: Get Some Local Pipeline Variables
-  hosts: localhost
-  connection: local
-  tasks:
-    - name: Get Pipeline Variables
-      set_fact:
-        commitSHA: "{{ ansible_env.commitSHA }}"
-
-- name: Deploy
-  hosts: all
+- hosts: all
   tasks:
     - name: Install Python3
       yum:
@@ -24,10 +15,12 @@
       pip:
         name: docker
 
+    - include_tasks: dockerHubLogin.yml
+
     - name: Start Ubuntu Containers
       docker_container: 
-          name: "{{containerName}}"
-          image: "{{containerImage}}"
+          name: "{{ansible_env.dockerHubContainerName}}"
+          image: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerContainerName}}"
           pull: yes
           state: started
           network_mode: bridge
@@ -37,7 +30,9 @@
           volumes:
             - "~/x509stores/:/root/.dotnet/corefx/cryptography/x509stores/"
           env:
-            ASPNETCORE_ENVIRONMENT: "Production"
+            ASPNETCORE_ENVIRONMENT: "{{ hostvars['localhost']['ASPNETCORE_ENVIRONMENT']}}"
             ASPNETCORE_URLS: "http://+;https://+"
             ASPNETCORE_HTTPS_PORT: "443"
             commitSHA: "{{ hostvars['localhost']['commitSHA'] }}"
+
+    - include_tasks: dockerHubLogout.yml
