@@ -12,25 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Docker Hub Login
-      run: echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
-
-    - name: Docker Build
-      run: docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
+    - name: Build Container
+      run: |
+        docker build -f "dotnet3.Dockerfile" -t "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu" .
 
     - name: Push to Docker Hub
-      run: docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
+      run: |
+        echo ${{secrets.dockerHubPassword}} | docker login -u ${{secrets.dockerHubUsername}} --password-stdin
+        docker push "${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"
+        docker logout
 
-    - name: Docker Hub Logout
-      run: docker logout
-
-    - name: Archive scripts for later jobs
+    - name: Archive Scripts For Later Use
       uses: actions/upload-artifact@v1
       with:
         name: scripts
         path: scripts
 
-  Deploy:
+  DeployContainer:
     runs-on: ubuntu-latest
     needs: BuildContainer
     env:
@@ -40,14 +38,12 @@ jobs:
       commitSHA: ${{github.event.pull_request.head.sha}}
 
     steps:
-    - name: Get Scripts
+    - name: Get Scripts From Archive
       uses: actions/download-artifact@v1
       with:
         name: scripts
-    - name: Print Ansible Version
-      run: ansible --version
-
-    - name: Prepare Environment
+    
+    - name: Prepare Public Facing Container Environment
       shell: bash
       run: |
         chmod -R a+x scripts
@@ -55,7 +51,7 @@ jobs:
         chmod 600 key.txt
         echo "ProductionDocker ansible_user=root ansible_ssh_host=${{secrets.digitalOceanIP}} domain=${{secrets.domain}} containerName=${{secrets.dockerHubContainerName}} containerImage="${{secrets.dockerHubUsername}}/${{secrets.dockerHubContainerName}}:ubuntu"  ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'" > inventory
 
-    - name: Deploy Container
+    - name: Deploy Public Facing Container
       run: ansible-playbook -i inventory scripts/deploy.yml
 
     - name: Delete Private Key Text File
