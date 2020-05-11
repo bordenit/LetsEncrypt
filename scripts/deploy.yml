@@ -20,7 +20,6 @@
           name: "{{containerName}}"
           image: "{{containerImage}}"
           pull: yes
-          network_mode: bridge
           recreate: yes
           state: started
           published_ports:
