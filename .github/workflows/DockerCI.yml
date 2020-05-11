@@ -26,13 +26,13 @@ jobs:
     - uses: actions/checkout@v1
     
     - name: Build and Push to Docker Hub
-      run: ansible-playbook tests/Integration/scripts/dockerPushToDockerHub.yml
+      run: ansible-playbook test/Integration/scripts/dockerPushToDockerHub.yml
 
     - name: Prepare For Deployment
-      run: ansible-playbook tests/Integration/scripts/createvars.yml
+      run: ansible-playbook test/Integration/scripts/createvars.yml
         
     - name: Deploy Public Facing Containers
-      run: ansible-playbook -i inventory tests/Integration/scripts/deploy.yml
+      run: ansible-playbook -i inventory test/Integration/scripts/deploy.yml
           
     - name: Check Home Page of All Ubuntu Containers
-      run: ansible-playbook -i inventory tests/Integration/scripts//checkpage.yml
+      run: ansible-playbook -i inventory test/Integration/scripts/checkpage.yml
