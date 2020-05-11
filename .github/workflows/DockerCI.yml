@@ -36,7 +36,8 @@ jobs:
     env:
       digitalOceanIP: ${{secrets.digitalOceanIP}}
       dockerHubUsername: ${{secrets.dockerHubUsername}}
-      dockerHubContainerName: ${{secrets.dockerHubContainerName}}      
+      dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
+      commitSHA: ${{github.event.pull_request.head.sha}}
 
     steps:
     - name: Get Scripts
