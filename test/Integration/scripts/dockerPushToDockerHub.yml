@@ -2,9 +2,9 @@
 - hosts: localhost
   connection: local
   tasks:
-    - include: installDependencies.yml
+    - include_tasks: installDependencies.yml
     
-    - include: dockerHubLogin.yml
+    - include_tasks: dockerHubLogin.yml
 
     - name: Build, Tag, and Push to Docker Hub
       docker_image:
@@ -16,4 +16,4 @@
         tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
         source: local
 
-    - include: dockerHubLogout.yml
+    - include_tasks: dockerHubLogout.yml
