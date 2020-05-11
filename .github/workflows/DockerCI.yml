@@ -37,5 +37,5 @@ jobs:
     - name: Deploy Public Facing Containers
       run: ansible-playbook -i inventory test/Integration/scripts/deploy.yml
           
-    - name: Check Home Page of All Ubuntu Containers
+    - name: Check Home Page of Containers
       run: ansible-playbook -i inventory test/Integration/scripts/checkpage.yml
