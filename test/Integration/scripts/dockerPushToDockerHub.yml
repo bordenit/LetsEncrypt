@@ -9,7 +9,8 @@
     - name: Build, Tag, and Push to Docker Hub
       docker_image:
         build:
-          path: ./dotnet3.Dockerfile
+          path: ./
+        dockerfile: dotnet3.Dockerfile
         name: "{{ansible_env.dockerHubContainerName}}"
         repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
         push: yes
