@@ -11,11 +11,11 @@
     - name: Build, Tag, and Push to Docker Hub
       become: true
       docker_image:
-        path: "{{ ansible_env.GITHUB_WORKSPACE }}"
+        path: "./{{ ansible_env.GITHUB_WORKSPACE }}"
         dockerfile: dotnet3.Dockerfile
         name: "{{ dockerHubUsername | lower}}"
         repository: "{{ dockerHubUsername | lower}}/{{ dockerHubContainerName | lower}}"
-        push: yes
+        #push: yes
         tag: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
         state: present
 
