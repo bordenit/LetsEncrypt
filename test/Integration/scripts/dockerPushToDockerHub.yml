@@ -15,7 +15,7 @@
         dockerfile: "dotnet3.Dockerfile"
         name: "{{ dockerHubContainerName | lower}}"
         repository: "{{ dockerHubUsername | lower}}/{{ dockerHubContainerName | lower}}"
-        #push: yes
+        push: yes
         tag: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
         state: present
 
