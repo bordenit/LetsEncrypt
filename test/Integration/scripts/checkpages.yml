@@ -9,5 +9,5 @@
         url: "https://{{hostvars[item].domain}}"
         return_content: true
       register: response
-      failed_when: "ansible_env.commitSHA not in response.content"
+      failed_when: "hostvars['localhost'].commitSHA not in response.content"
       with_items: "{{ groups['containers'] }}"
