@@ -1,4 +1,8 @@
 ---
+- hosts: localhost
+  tasks:
+    - include: setfacts.yml
+      
 - hosts: all
   tasks:
     - include: installDependencies.yml
@@ -7,8 +11,8 @@
 
     - name: Start Ubuntu Containers
       docker_container: 
-          name: "{{ dockerHubContainerName }}"
-          image: "{{ dockerHubUsername }}/{{ dockerContainerName }}"
+          name: "{{ hostvars['localhost']['dockerHubContainerName'] }}"
+          image: "{{ hostvars['localhost']['dockerHubUsername']}}/{{ hostvars['localhost']['dockerHubContainerName'] }}"
           pull: yes
           state: started
           network_mode: bridge
