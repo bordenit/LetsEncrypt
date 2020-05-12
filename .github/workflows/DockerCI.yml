@@ -30,7 +30,7 @@ jobs:
       run: chmod -R a+x ./test/Integration/scripts/
    
     - name: Build and Push to Docker Hub
-      run: ansible-playbook test/Integration/scripts/dockerPushToDockerHub.yml -vvv
+      run: ansible-playbook test/Integration/scripts/dockerPushToDockerHub.yml
 
     - name: Prepare For Deployment
       run: ansible-playbook test/Integration/scripts/createvars.yml
