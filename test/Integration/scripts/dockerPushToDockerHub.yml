@@ -9,6 +9,7 @@
     - include: dockerHubLogin.yml
 
     - name: Build, Tag, and Push to Docker Hub
+      become: true
       docker_image:
         build:
           path: "{{hostvars['localhost']['commitSHA']}}"
