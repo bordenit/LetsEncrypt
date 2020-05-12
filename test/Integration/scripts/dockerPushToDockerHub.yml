@@ -10,11 +10,11 @@
     - name: Build, Tag, and Push to Docker Hub
       docker_image:
         build:
-          path: "{{ansible_env.GITHUB_WORKSPACE}}"
+          path: "{{hostvars['localhost']['commitSHA']}}"
           dockerfile: dotnet3.Dockerfile
           pull: yes
-        name: "{{ansible_env.dockerHubContainerName}}"
-        repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
+        name: "{{ hostvars['localhost']['dockerHubContainerName'] }}"
+        repository: "{{ hostvars['localhost']['dockerHubUsername'] }}/{{ hostvars['localhost']['dockerHubContainerName'] }}"
         push: yes
         tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
         source: build
