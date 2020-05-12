@@ -3,9 +3,7 @@
   connection: local
   tasks:
     - include: installDependencies.yml
-    - set_fact:
-        dockerHubUserName: "{{ ansible_env.dockerHubUsername }}"
-        dockerHubPassword: "{{ ansible_env.dockerHubPassword }}"
+    
     - include: dockerHubLogin.yml
 
     - name: Build, Tag, and Push to Docker Hub
