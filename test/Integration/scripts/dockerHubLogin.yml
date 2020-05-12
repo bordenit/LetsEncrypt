@@ -1,6 +1,6 @@
 --- 
 - name: Log into Docker
   docker_login:
-    username: "{{ dockerHubUsername }}"
-    password: "{{ dockerHubPassword  }}"
+    username: "{{ ansible_env.dockerHubUsername }}"
+    password: "{{ ansible_env.dockerHubPassword  }}"
     registry_url: "https://index.docker.io/v2/"
