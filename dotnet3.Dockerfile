@@ -10,7 +10,7 @@ COPY . .
 RUN dotnet restore
 
 FROM env AS publish
-RUN dotnet publish samples/Web/Web.csproj -c Release -o /app
+RUN dotnet publish test/Integration/Web/Web.csproj -c Release -o /app
 
 FROM base AS final
 COPY --from=publish /app .
