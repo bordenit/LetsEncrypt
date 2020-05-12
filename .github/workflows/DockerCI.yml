@@ -20,6 +20,8 @@ jobs:
       domain: ${{secrets.domain}}  
       ansible_python_interpreter: "/usr/bin/python3"
       ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://+;https://+"
+      ASPNETCORE_HTTPS_PORT: "443"
 
     steps:
     - uses: actions/checkout@v1
