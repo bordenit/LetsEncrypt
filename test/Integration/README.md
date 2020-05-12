@@ -1,7 +1,7 @@
 Integration Testing
 ===================
 
-This project has automated tests for integration, so here is no need to manually test. However, you can if you choose.
+This project has automated tests for integration, but you can test it manually if you choose.
 
 ## Testing in development using ngrok
 
