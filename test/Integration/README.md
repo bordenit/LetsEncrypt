@@ -109,4 +109,3 @@ To trust a test certificate, on macOS
 
 ## CI/CD With Docker
 Automated tests run on each pull request to build all .csproj files in this repository using GitHub Actions and Ansible scripts to deploy a container to a public facing Docker host. Following deployment, the page on the deployed container is checked for a matching GITHUB_SHA value that matches the commit that triggered the container build.
-
