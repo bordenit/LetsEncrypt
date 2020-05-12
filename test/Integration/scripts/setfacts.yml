@@ -1,0 +1,6 @@
+---
+- name: Set Facts Needed Across Hosts and Environments
+  set_fact:
+    dockerHubUsername: "{{ ansible_env.dockerHubUsername }}"
+    dockerHubPassword: "{{ ansible_env.dockerHubPassword }}"
+    dockerHubContainerName: "{{ ansible_env.dockerHubContainerName }}"
