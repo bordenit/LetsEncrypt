@@ -3,7 +3,18 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Create hostvars group
+    - name: Create all hostvars group
+      lineinfile:
+        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
+        line: "[all]"
+        create: yes
+    - name: Create hostvars for all
+      lineinfile:
+        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
+        line: ansible_python_interpreter: "/usr/bin/python3"
+        create: yes   
+        
+    - name: Create Container hostvars group
       lineinfile:
         path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
         line: "[containers]"
