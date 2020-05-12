@@ -108,7 +108,5 @@ To trust a test certificate, on macOS
 ![green](https://i.imgur.com/tyTaJwV.png)
 
 ## CI/CD With Docker
-Automated tests run on each pull request to build all .csproj files in this repository. This testing utilized GitHub Actions and Ansible scripts to deploy a container to a public facing Docker host on Ubuntu. This can be used in a forked repo as well, you just need to change the environment variables on the DockerCI.yml file. This can be expanded to other operating systems in the future.
-
-Following deployment, the page on the deployed container is checked for a matching GITHUB_SHA value that matches the commit that triggered the container build.
+Automated tests run on each pull request to build all .csproj files in this repository using GitHub Actions and Ansible scripts to deploy a container to a public facing Docker host. Following deployment, the page on the deployed container is checked for a matching GITHUB_SHA value that matches the commit that triggered the container build.
 
