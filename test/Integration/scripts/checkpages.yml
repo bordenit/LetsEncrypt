@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   tasks:
+    - include: setfacts.yml
     - name: Check if web page loads and contains commit
       uri: 
         url: "https://{{hostvars[item].domain}}"
