@@ -4,7 +4,9 @@
     - name: Install Python3
       become: yes
       yum:
-        name: python3
+        name: 
+          - python-apt
+          - python3
         state: present
 
     - name: Install PIP
