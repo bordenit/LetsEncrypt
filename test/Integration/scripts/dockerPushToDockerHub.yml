@@ -15,10 +15,10 @@
           path: "{{ ansible_env.GITHUB_WORKSPACE }}"
           dockerfile: dotnet3.Dockerfile
           pull: yes
-        name: "{{ hostvars['localhost']['dockerHubContainerName'] }}"
-        repository: "{{ hostvars['localhost']['dockerHubUsername'] }}/{{ hostvars['localhost']['dockerHubContainerName'] }}"
+        name: "{{ dockerHubUsername | lower}}"
+        repository: "{{ dockerHubUsername | lower}}/{{ dockerHubContainerName | lower}}"
         push: yes
-        tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
+        tag: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
         source: build
         state: present
 
