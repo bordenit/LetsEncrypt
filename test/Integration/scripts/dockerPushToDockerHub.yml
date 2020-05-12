@@ -2,6 +2,8 @@
 - hosts: localhost
   connection: local
   tasks:
+    - include: setfacts.yml
+    
     - include: installDependencies.yml
     
     - include: dockerHubLogin.yml
