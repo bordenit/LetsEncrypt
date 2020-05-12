@@ -26,11 +26,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Set Ansible Script Permissions & Facts
-      run: |
-        chmod -R a+x ./test/Integration/scripts/
-        ansible-playbook test/Integration/scripts/setfacts.yml
-      
+    - name: Set Ansible Script Permissions
+      run: chmod -R a+x ./test/Integration/scripts/
+   
     - name: Build and Push to Docker Hub
       run: ansible-playbook test/Integration/scripts/dockerPushToDockerHub.yml
 
