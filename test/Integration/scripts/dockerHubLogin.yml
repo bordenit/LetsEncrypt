@@ -4,4 +4,3 @@
     username: "{{ dockerHubUsername }}"
     password: "{{ dockerHubPassword  }}"
     registry_url: "https://index.docker.io/v2/"
-    reauthorize: yes
