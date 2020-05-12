@@ -1,22 +1,23 @@
 ---
+
 - hosts: localhost
   connection: local
   tasks:
     - include: setfacts.yml
-    
     - include: installDependencies.yml
-    
     - include: dockerHubLogin.yml
-
+    
     - name: Build, Tag, and Push to Docker Hub
-      become: true
       docker_image:
-        path: "{{ ansible_env.GITHUB_WORKSPACE }}"
-        dockerfile: "dotnet3.Dockerfile"
-        name: "{{ dockerHubContainerName | lower}}"
-        repository: "{{ dockerHubUsername | lower}}/{{ dockerHubContainerName | lower}}"
+        build:
+          path: "{{ansible_env.GITHUB_WORKSPACE}}"
+          dockerfile: dotnet3.Dockerfile
+          pull: yes
+        name: "{{ansible_env.dockerHubContainerName}}"
+        repository: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}"
         push: yes
-        tag: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
+        tag: "{{hostvars[inventory_hostname].ansible_distribution_version}}"
+        source: build
         state: present
 
     - include: dockerHubLogout.yml
