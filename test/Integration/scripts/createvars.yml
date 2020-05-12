@@ -3,19 +3,8 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Create all hostvars group
-      lineinfile:
-        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
-        line: "[all]"
-        create: yes
-        
-    - name: Create hostvars for all
-      lineinfile:
-        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
-        line: ansible_python_interpreter="/usr/bin/python3"
-        create: yes   
-        
-    - name: Create Container hostvars group
+   
+    - name: Create Container hostvars heading
       lineinfile:
         path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
         line: "[containers]"
@@ -26,7 +15,19 @@
         path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
         line: DigitalOceanContainer1 ansible_user=root ansible_ssh_host={{ansible_env.digitalOceanIP}} domain={{ansible_env.domain}} containerName={{ansible_env.dockerHubContainerName}} containerImage='{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerHubContainerName}}:ubuntu' ansible_ssh_private_key_file=key.txt ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
         create: yes
-
+        
+    - name: Create all vars heading
+      lineinfile:
+        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
+        line: "[all:vars]"
+        create: yes
+        
+    - name: Add all vars
+      lineinfile:
+        path: "{{ ansible_env.GITHUB_WORKSPACE }}/inventory"
+        line: ansible_python_interpreter="/usr/bin/python3"
+        create: yes   
+        
     - name: Create Private Key File
       lineinfile: 
         path: "{{ ansible_env.GITHUB_WORKSPACE }}/key.txt"
