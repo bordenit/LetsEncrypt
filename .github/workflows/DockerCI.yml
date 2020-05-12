@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       digitalOceanIP: ${{secrets.digitalOceanIP}}
-      dockerTag: "ubuntu"
       dockerHubUsername: ${{secrets.dockerHubUsername}}
       dockerHubPassword: ${{secrets.dockerHubPassword}}
       dockerHubContainerName: ${{secrets.dockerHubContainerName}}    
