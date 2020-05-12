@@ -1,8 +1,4 @@
 ---
-- hosts: localhost
-  tasks:
-    - include: setfacts.yml
-    
 - hosts: all
   tasks:
     - include: installDependencies.yml
