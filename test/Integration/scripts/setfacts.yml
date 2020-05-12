@@ -6,5 +6,5 @@
     dockerHubContainerName: "{{ ansible_env.dockerHubContainerName }}"
     ASPNETCORE_ENVIRONMENT: "{{ ansible_env.ASPNETCORE_ENVIRONMENT }}"
     ASPNETCORE_URLS: "{{ ansible_env.ASPNETCORE_URLS }}"
-    ASPNETCORE_HTTPS_PORT: "{{ ansible_env.ASPNETCORE_HTTPS_PORT }}
+    ASPNETCORE_HTTPS_PORT: "{{ ansible_env.ASPNETCORE_HTTPS_PORT }}"
     commitSHA: "{{ ansible_env.commitSHA }}"
