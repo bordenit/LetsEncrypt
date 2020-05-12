@@ -1,6 +1,6 @@
 --- 
 - name: Log into Docker
   docker_login:
-    username: "{{ hostvars['localhost']['dockerHubUsername'] }}"
-    password: "{{ hostvars['localhost']['dockerHubPassword']  }}"
+    username: "{{ dockerHubUsername }}"
+    password: "{{ dockerHubPassword  }}"
     reauthorize: yes
