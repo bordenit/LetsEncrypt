@@ -1,4 +1,8 @@
 ---
+- hosts: localhost
+  tasks:
+    - include: setfacts.yml
+    
 - hosts: all
   tasks:
     - include: installDependencies.yml
@@ -7,8 +11,8 @@
 
     - name: Start Ubuntu Containers
       docker_container: 
-          name: "{{ansible_env.dockerHubContainerName}}"
-          image: "{{ansible_env.dockerHubUsername}}/{{ansible_env.dockerContainerName}}"
+          name: "{{ dockerHubContainerName }}"
+          image: "{{ dockerHubUsername }}/{{ dockerContainerName }}"
           pull: yes
           state: started
           network_mode: bridge
