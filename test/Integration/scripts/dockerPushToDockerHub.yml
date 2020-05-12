@@ -11,15 +11,12 @@
     - name: Build, Tag, and Push to Docker Hub
       become: true
       docker_image:
-        build:
-          path: "{{ ansible_env.GITHUB_WORKSPACE }}"
-          dockerfile: dotnet3.Dockerfile
-          pull: yes
+        path: "{{ ansible_env.GITHUB_WORKSPACE }}"
+        dockerfile: dotnet3.Dockerfile
         name: "{{ dockerHubUsername | lower}}"
         repository: "{{ dockerHubUsername | lower}}/{{ dockerHubContainerName | lower}}"
         push: yes
         tag: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
-        source: build
         state: present
 
     - include: dockerHubLogout.yml
