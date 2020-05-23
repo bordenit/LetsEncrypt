@@ -27,18 +27,48 @@ jobs:
   pool:
     vmImage: $(vmImage)
   steps:
+  - task: UseDotNet@2
+    displayName: Install .NET Core 3.1
+    inputs:
+      version: '3.1.x'
+  - task: UseDotNet@2
+    displayName: Install .NET Core 2.1
+    inputs:
+      version: '2.1.x'
+  - powershell: ./build.ps1 -ci
+    displayName: Invoke build.ps1
+    env:
+      KEYVAULT_CLIENT_SECRET: $(kv-access-token)
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: always()
+    continueOnError: true
+    inputs:
+      testRunTitle: $(vmImage)
+      testRunner: vstest
+      testResultsFiles: '**/*.trx'
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish code coverage results
+    continueOnError: true
+    inputs:
+      codeCoverageTool: cobertura
+      summaryFileLocation: coverlet/reports/Cobertura.xml
+  - publish: 'artifacts/'
+    artifact: 'Packages'
+    displayName: Publish artifacts
+    condition: and(succeeded(), eq('windows-2019', variables['vmImage']))
   - task: Docker@2
     displayName: Login to Container Registry
     inputs:
       command: login
-      containerRegistry: dockerRegistryServiceConnection1
+      containerRegistry: dockerHub
   - task: Docker@2
     displayName: Build and push an image to container registry
     inputs:
       command: buildAndPush
       repository: $(imageRepository)
       dockerfile: $(dockerfilePath)
-      containerRegistry: dockerRegistryServiceConnection1
+      containerRegistry: dockerHub
       tags: |
-        $(tag)
-    
+        $(vmImage)
+  
